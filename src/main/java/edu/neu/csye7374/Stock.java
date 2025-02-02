@@ -10,6 +10,7 @@ public abstract class Stock implements Tradable {
     protected List<Bid> bids;
 
     protected PricingStrategy pricingStrategy;
+    protected double baseAlpha;
 
     public Stock(String id, double price, String description) {
         this.id = id;
@@ -19,23 +20,25 @@ public abstract class Stock implements Tradable {
     }
 
     @Override
-    public void setBid(Bid bid) {
-        bids.add(bid);
-        price = (price + bid.getBidPrice()) / 2;
-    }
-
-    @Override
     public String toString() {
         return String.format("%s: $%.2f (Metric: %d)",
                 id, price, getMetric());
+    }
+
+    @Override
+    public void setBid(Bid bid) {
+        bids.add(bid);
+        price = calculateNewPrice(bid.getBidPrice());
     }
 
     public void setPricingStrategy(PricingStrategy strategy) {
         this.pricingStrategy = strategy;
     }
 
-    public void updatePrice() {
-        this.price = pricingStrategy.calculateNewPrice(this.price);
+    protected double getEffectiveAlpha() {
+        return pricingStrategy.adjustAlpha(baseAlpha);
     }
+
+    protected abstract double calculateNewPrice(double bidPrice);
 }
 

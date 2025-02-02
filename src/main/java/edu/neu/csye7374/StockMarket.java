@@ -35,48 +35,63 @@ public class StockMarket {
         System.out.println("Initial Stocks:");
         market.getStocks().forEach(System.out::println);
 
-//        Bid[] techBids = {
-//                new Bid("Investor1", 185.0),
-//                new Bid("Investor2", 182.0),
-//                new Bid("Investor3", 188.0),
-//                new Bid("Investor4", 186.0),
-//                new Bid("Investor5", 190.0),
-//                new Bid("Investor6", 192.0)
-//        };
-//
-//        Bid[] finBids = {
-//                new Bid("Investor1", 142.0),
-//                new Bid("Investor2", 145.0),
-//                new Bid("Investor3", 143.0),
-//                new Bid("Investor4", 146.0),
-//                new Bid("Investor5", 144.0),
-//                new Bid("Investor6", 148.0)
-//        };
-//
-//        System.out.println("\nTechnology Stock Trading Simulation:");
-//        for (Bid bid : techBids) {
-//            System.out.println("New " + bid);
-//            techStock.setBid(bid);
-//            System.out.println("After bid: " + techStock);
-//        }
-//
-//        System.out.println("\nFinancial Stock Trading Simulation:");
-//        for (Bid bid : finBids) {
-//            System.out.println("New " + bid);
-//            finStock.setBid(bid);
-//            System.out.println("After bid: " + finStock);
-//        }
+        Bid[] techBids1 = {
+                new Bid("Investor1", 185.0),
+                new Bid("Investor2", 182.0),
+                new Bid("Investor3", 188.0),
+        };
 
-        market.getStocks().forEach(Stock::updatePrice);
-        System.out.println("\nAfter BearStrategy:");
-        market.getStocks().forEach(System.out::println);
+        Bid[] techBids2 = {
+                new Bid("Investor7", 172.0),
+                new Bid("Investor8", 178.0),
+                new Bid("Investor9", 176.0),
+        };
 
-        System.out.println("\nSwitching to BullStrategy");
+        Bid[] finBids1 = {
+                new Bid("Investor4", 146.0),
+                new Bid("Investor5", 144.0),
+                new Bid("Investor6", 148.0)
+        };
+
+        Bid[] finBids2 = {
+                new Bid("Investor10", 138.0),
+                new Bid("Investor11", 142.0),
+                new Bid("Investor12", 140.0)
+        };
+
+        System.out.println("\n===Applying BullStrategy===");
         market.getStocks().forEach(stock -> stock.setPricingStrategy(new BullMarketStrategy()));
 
-        market.getStocks().forEach(Stock::updatePrice);
-        System.out.println("\nAfter BullStrategy:");
-        market.getStocks().forEach(System.out::println);
+        System.out.println("\nTechnology Stock Trading Simulation:");
+        for (Bid bid : techBids1) {
+            System.out.println("New " + bid);
+            techStock.setBid(bid);
+            System.out.println("After bid: " + techStock);
+        }
+
+        System.out.println("\nFinancial Stock Trading Simulation:");
+        for (Bid bid : finBids1) {
+            System.out.println("New " + bid);
+            finStock.setBid(bid);
+            System.out.println("After bid: " + finStock);
+        }
+
+        System.out.println("\n===Switching to BearStrategy===");
+        market.getStocks().forEach(stock -> stock.setPricingStrategy(new BearMarketStrategy()));
+
+        System.out.println("\nTechnology Stock Trading Simulation:");
+        for (Bid bid : techBids2) {
+            System.out.println("New " + bid);
+            techStock.setBid(bid);
+            System.out.println("After bid: " + techStock);
+        }
+
+        System.out.println("\nFinancial Stock Trading Simulation:");
+        for (Bid bid : finBids2) {
+            System.out.println("New " + bid);
+            finStock.setBid(bid);
+            System.out.println("After bid: " + finStock);
+        }
     }
 }
 

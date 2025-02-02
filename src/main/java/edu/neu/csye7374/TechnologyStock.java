@@ -3,7 +3,14 @@ package edu.neu.csye7374;
 public class TechnologyStock extends Stock {
     public TechnologyStock(String id, double price, String description) {
         super(id, price, description);
+        baseAlpha = 0.5;
         this.pricingStrategy = new BearMarketStrategy();
+    }
+
+    @Override
+    protected double calculateNewPrice(double bidPrice) {
+        double alpha = getEffectiveAlpha();
+        return alpha * bidPrice + (1 - alpha) * price;
     }
 
     @Override
