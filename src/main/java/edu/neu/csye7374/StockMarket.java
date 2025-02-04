@@ -26,14 +26,19 @@ public class StockMarket {
     public static void demo() {
         StockMarket market = StockMarket.getInstance();
 
-        TechnologyStock techStock = new TechnologyStock("AAPL", 180.0, "Apple Inc.");
-        FinancialStock finStock = new FinancialStock("JPM", 140.0, "JPMorgan Chase");
+        StockFactory techFactory = TechnologyStockFactoryLazySingleton.getInstance();
+        StockFactory finFactory = FinancialStockFactoryEagerSingleton.getInstance();
+
+        // Create stocks
+        Stock techStock = techFactory.createStock("AAPL", 180.0, "Apple Inc.");
+        Stock finStock = finFactory.createStock("JPM", 140.0, "JPMorgan Chase");
 
         market.addStock(techStock);
         market.addStock(finStock);
 
         System.out.println("Initial Stocks:");
         market.getStocks().forEach(System.out::println);
+        market.getStocks().forEach(stock -> System.out.println("Base Alpha: " + stock.getBaseAlpha()));
 
         Bid[] techBids1 = {
                 new Bid("Investor1", 185.0),
@@ -61,6 +66,7 @@ public class StockMarket {
 
         System.out.println("\n===Applying BullStrategy===");
         market.getStocks().forEach(stock -> stock.setPricingStrategy(new BullMarketStrategy()));
+        market.getStocks().forEach(stock -> System.out.printf("Alpha value: %.2f%n", stock.getEffectiveAlpha()));
 
         System.out.println("\nTechnology Stock Trading Simulation:");
         for (Bid bid : techBids1) {
@@ -78,6 +84,7 @@ public class StockMarket {
 
         System.out.println("\n===Switching to BearStrategy===");
         market.getStocks().forEach(stock -> stock.setPricingStrategy(new BearMarketStrategy()));
+        market.getStocks().forEach(stock -> System.out.printf("Alpha value: %.2f%n", stock.getEffectiveAlpha()));
 
         System.out.println("\nTechnology Stock Trading Simulation:");
         for (Bid bid : techBids2) {

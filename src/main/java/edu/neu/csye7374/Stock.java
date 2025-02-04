@@ -39,6 +39,10 @@ public abstract class Stock implements Tradable {
         return pricingStrategy.adjustAlpha(baseAlpha);
     }
 
+    public double getBaseAlpha() {
+        return baseAlpha;
+    }
+
     protected abstract double calculateNewPrice(double bidPrice);
 }
 
